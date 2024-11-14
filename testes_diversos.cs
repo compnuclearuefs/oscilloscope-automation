@@ -31,6 +31,7 @@ namespace TekOscilloscopeCommunication
             );
             storageServiceOscilloscopeConfigs.Save(hehe);*/
 
+            /*
             // Inicializar OpenFileDialog
             TekVISA tekVISA = new TekVISA();
             UserConfigs userConfigs = new UserConfigs(" ", " ", " ", 0, " ");
@@ -63,8 +64,10 @@ namespace TekOscilloscopeCommunication
                 // Processar o dado, por exemplo:
                 Console.WriteLine($"Dado {i}: {triggerConf[i]}");
             }
-
-
+            */
+            DateTime currentTime = DateTime.UtcNow;
+            double julianDate = Tools.ConvertDateToJulian(currentTime);
+            Console.WriteLine(Math.Round(julianDate,6));
 
             /*
             // Obtém a data e hora atual

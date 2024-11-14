@@ -6,13 +6,22 @@ using System.Linq;
 
 namespace comunicacaoOciloscopio.classes
 {
-    class FileManager
+    public class FileManager
     {
-        public const string directory = "C:/Users/projetoMCA/Desktop/kauaWorkspace/projetoComunicacao/EXPERIMENTOS_TESTE/";
+        // BEGINNING directory SET
+        public string directory { get; set; } // Agora FilePath tem get e set públicos
+
+        public FileManager(string in_directory)
+        {
+            directory = in_directory;
+        }
+        // END directory SET
+
+        //public const string directory = "C:/Users/projetoMCA/Desktop/kauaWorkspace/projetoComunicacao/EXPERIMENTOS_TESTE/";
         public const string arqName = "data.txt";
         public static string filePath { get; set; }
 
-        public static void createFile(String pathName)
+        public void createFile(String pathName)
         {
             try
             {
@@ -53,14 +62,14 @@ namespace comunicacaoOciloscopio.classes
         public static void update(DataAcquisition data)
         {
             DateTime currentTime = DateTime.UtcNow;
-            double julianDate = Tools.ConvertDateToJulian(currentTime, 6);
+            double julianDate = Tools.ConvertDateToJulian(currentTime);
             //String horaAtual = currentTime.ToString("HH:mm:ss");
             //String dataAtual = currentTime.ToString("dd/MM/yyyy");
 
             Console.WriteLine("Tempo: " + Tools.ConvertUtcToTimeZone(currentTime, timezone));
             using (StreamWriter sw = File.AppendText(filePath))
             {
-                sw.Write(($"{Tools.applyJulianOffset(julianDate)}").PadRight(12) + "\t");
+                sw.Write(($"{Math.Round(Tools.applyJulianOffset(julianDate), 6)}").PadRight(12) + "\t");
                 // Iterando sobre cada elemento da lista 'data.Data'
                 foreach (string elemento in data.Data)
                 {

@@ -7,7 +7,7 @@ namespace comunicacaoOciloscopio.classes
     class Tools
     {
         // Função para converter uma data do calendário gregoriano para data juliana com frações de dias
-        public static double ConvertDateToJulian(DateTime date, int decimalPrecision)
+        public static double ConvertDateToJulian(DateTime date)
         {
             int year = date.Year;
             int month = date.Month;
@@ -32,10 +32,10 @@ namespace comunicacaoOciloscopio.classes
             // Adiciona a fração do dia (hora, minuto, segundo)
             double fractionOfDay = (date.Hour + (date.Minute / 60.0) + (date.Second / 3600.0)) / 24.0;
 
-            return Math.Round(julianDay + fractionOfDay, decimalPrecision);
+            return julianDay + fractionOfDay;
         }
 
-        public static DateTime ConvertJulianToGregorian(double julianDate, int decimalPrecision)
+        public static DateTime ConvertJulianToGregorian(double julianDate)
         {
             // Data inicial do calendário juliano, correspondente ao Unix epoch em dias julianos
             const double julianEpoch = 2440587.5; // Data juliana para 1970-01-01 00:00:00 UTC

@@ -15,7 +15,7 @@ namespace TekOscilloscopeCommunication
 { 
     class Program
     {
-        public const string directory = "C:/Users/projetoMCA/Desktop/kauaWorkspace/projetoComunicacao/EXPERIMENTOS_TESTE/";
+        //public const string directory = "C:/Users/projetoMCA/Desktop/kauaWorkspace/projetoComunicacao/EXPERIMENTOS_TESTE/";
         public const string risesArq = "rises.txt";
         public const string ampArq = "amplitude.txt";
         public const string ampXrisesArq = "ampXrises.txt";
@@ -25,7 +25,7 @@ namespace TekOscilloscopeCommunication
         {
             // Veriáveis e estruturas para "DEV MODE"
             bool dev = true;
-            string projectPath = "C:/Users/projetoMCA/Desktop/kauaWorkspace/projetoComunicacao/comunicacaoOciloscopio_latest_samuca_changes";
+            string projectPath = "C:/Users/projetoMCA/Desktop/GitHub Desktop/oscilloscope-automation";
 
 
             // Inicialização de variáveis
@@ -49,6 +49,16 @@ namespace TekOscilloscopeCommunication
 
 
 
+            // BEGINNING FileManager directory SET
+            FileManager fileManager = new FileManager("");
+            storageServiceUserConfigs.FilePath = $"{projectPath}/userConfigs.json";
+            userConfigs = storageServiceUserConfigs.Load();
+            string directory = $"{userConfigs.Directory}";
+            fileManager.directory = directory;
+            // END directory FileManager SET
+
+
+
             //userConfigs.readSetupFile();
             /*
             DateTime now = DateTime.Now;
@@ -67,14 +77,14 @@ namespace TekOscilloscopeCommunication
                 Console.WriteLine(ex.Message);
             }
             */
-            
+
             Console.WriteLine("Hello World!");
 
 
             // CRIAÇÃO DA PASTA
             Console.WriteLine("\nDigite o nome do experimento: ");
             String pathName = Console.ReadLine();
-            FileManager.createFile(pathName);//CRIAÇÃO DE PASTA E ARQUIVOS 
+            fileManager.createFile(pathName);//CRIAÇÃO DE PASTA E ARQUIVOS 
 
             /*
             string folderPath = @directory + userConfigs.Directory;
@@ -102,7 +112,9 @@ namespace TekOscilloscopeCommunication
 
             // MÁXIMO DE EVENTOS
             Console.WriteLine("\nDigite o máximo de eventos: ");
-            string maxEventsInput = Console.ReadLine();
+            //string maxEventsInput = Console.ReadLine();
+            string maxEventsInput = "100";
+
             if (int.TryParse(maxEventsInput, out int intMaxEvent))
             {
                 userConfigs.MaxEvents = intMaxEvent;
@@ -116,7 +128,8 @@ namespace TekOscilloscopeCommunication
             
             // SELEÇÃO DE CANAL
             Console.WriteLine("\nDigite o canal almejado: ");
-            userConfigs.Channel = Console.ReadLine();
+            //userConfigs.Channel = Console.ReadLine();
+            userConfigs.Channel = "CH1";
 
             storageServiceUserConfigs.FilePath = userConfigsPath;
             storageServiceUserConfigs.Save(userConfigs);
@@ -195,6 +208,10 @@ namespace TekOscilloscopeCommunication
                             break;
                         case "2":
                             // Implementar
+                            Console.Write(@"!!ATENÇÂO!!
+Faça as devidas configurações do trigger e de visualização (escala e posição vertical e horizontal)
+no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressione enter no teclado.");
+                            Console.ReadLine();
                             tekVISA.Write("HEADER OFF");
                             OscilloscopeConfigs userOscConf = new OscilloscopeConfigs("", "", "", "");
                             userOscConf.DataFormatSet = "HEADER OFF;:DATA:SOU CH1;:DATA:ENCDG SRPbinary;:DATA:WIDTH 2;:DATA:START 1;:DATA:STOP";
@@ -243,7 +260,7 @@ namespace TekOscilloscopeCommunication
                             }
 
 
-                            storageServiceOscilloscopeConfigs.FilePath = FileManager.directory + $"/{pathName}/userOscConf({pathName}).json";
+                            storageServiceOscilloscopeConfigs.FilePath = directory + $"/{pathName}/userOscConf({pathName}).json";
                             storageServiceOscilloscopeConfigs.Save(userOscConf);
                             oscilloscopeConfigs = storageServiceOscilloscopeConfigs.Load();
                             tekVISA.Configure(oscilloscopeConfigs);
@@ -252,7 +269,7 @@ namespace TekOscilloscopeCommunication
                             break;
                         case "3":
                             // code block
-                            storageServiceOscilloscopeConfigs.FilePath = oscilloscopeConfigsPath;
+                            storageServiceOscilloscopeConfigs.FilePath = $"{oscilloscopeConfigsPath}/oscilloscopeDefaultConfigs.json";
                             oscilloscopeConfigs = storageServiceOscilloscopeConfigs.Load();
                             tekVISA.Configure(oscilloscopeConfigs);
                             tekVISA.SetChannel(userConfigs.Channel);
