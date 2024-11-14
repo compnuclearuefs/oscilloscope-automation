@@ -84,7 +84,7 @@ namespace TekOscilloscopeCommunication
             // CRIAÇÃO DA PASTA
             Console.WriteLine("\nDigite o nome do experimento: ");
             String pathName = Console.ReadLine();
-            fileManager.createFile(pathName);//CRIAÇÃO DE PASTA E ARQUIVOS 
+            fileManager.createFile($"/{pathName}");//CRIAÇÃO DE PASTA E ARQUIVOS
 
             /*
             string folderPath = @directory + userConfigs.Directory;
