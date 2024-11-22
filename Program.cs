@@ -78,7 +78,7 @@ namespace TekOscilloscopeCommunication
             }
             */
 
-            Console.WriteLine("Hello World!");
+            //Console.WriteLine("Hello World!");
 
 
             // CRIAÇÃO DA PASTA
@@ -111,25 +111,47 @@ namespace TekOscilloscopeCommunication
             */
 
             // MÁXIMO DE EVENTOS
-            Console.WriteLine("\nDigite o máximo de eventos: ");
-            //string maxEventsInput = Console.ReadLine();
-            string maxEventsInput = "100";
+            while (true)
+            {
+                Console.WriteLine("\nDigite o máximo de eventos: ");
+                string maxEventsInput = Console.ReadLine();
+                //string maxEventsInput = "100";
 
-            if (int.TryParse(maxEventsInput, out int intMaxEvent))
-            {
-                userConfigs.MaxEvents = intMaxEvent;
-                Console.WriteLine($"\n\n\tMÁXIMOS EVENTOS: {userConfigs.MaxEvents}\n");
-            }
-            else
-            {
-                Console.WriteLine("Entrada inválida para o número máximo de eventos.");
-                return;
+                if (int.TryParse(maxEventsInput, out int intMaxEvent))
+                {
+                    userConfigs.MaxEvents = intMaxEvent;
+                    Console.WriteLine($"\n\n\tMÁXIMOS EVENTOS: {userConfigs.MaxEvents}\n");
+                }
+                else
+                {
+                    Console.WriteLine("Entrada inválida para o número máximo de eventos.");
+                    continue;
+                }
+                break;
             }
             
+            
             // SELEÇÃO DE CANAL
-            Console.WriteLine("\nDigite o canal almejado: ");
-            //userConfigs.Channel = Console.ReadLine();
-            userConfigs.Channel = "CH1";
+            while (true)
+            {
+                Console.WriteLine(@"Digite o canal almejado: 
+1) CH1
+2) CH2
+3) CH3
+4) CH4");
+                //userConfigs.Channel = Console.ReadLine();
+                userConfigs.Channel = "1";
+                if (!int.TryParse(userConfigs.Channel, out int channelInt))
+                {
+                    if (!(channelInt >= 1 && channelInt <= 4))
+                    {
+                        Console.WriteLine($"Digite uma opção válida");
+                        continue;
+                    }
+                }
+                break;
+            }
+            
 
             storageServiceUserConfigs.FilePath = userConfigsPath;
             storageServiceUserConfigs.Save(userConfigs);
@@ -162,7 +184,7 @@ namespace TekOscilloscopeCommunication
             while (true)
             {
                 Console.WriteLine(@"Configuração do ociloscópio
-    1) Carregar a última configuração
+    1) Carregar a configuração existente
     2) Carregar uma nova configuração
     3) Carregar configuração Padrão");
                 string oscilloscopeConfOp = Console.ReadLine();
@@ -182,14 +204,14 @@ namespace TekOscilloscopeCommunication
                             while (true)
                             {
                                 Console.WriteLine("--> Por favor, insira o caminho completo do arquivo:");
-                                oscilloscopeConfigsPath = Console.ReadLine();
+                                oscilloscopeConfigsPath = Console.ReadLine().Replace("\\", "/");
 
                                 // Verificar se o caminho existe
                                 if (System.IO.File.Exists(oscilloscopeConfigsPath))
                                 {
                                     Console.WriteLine("Caminho do arquivo fornecido: " + oscilloscopeConfigsPath + "\n\n");
                                     // Aqui você pode prosseguir com a leitura do arquivo ou outras operações
-
+                                    storageServiceOscilloscopeConfigs.FilePath = oscilloscopeConfigsPath;
                                     oscilloscopeConfigs = storageServiceOscilloscopeConfigs.Load();
                                     tekVISA.Configure(oscilloscopeConfigs);
 
