@@ -2,6 +2,6 @@
   "Directory": "C:/Users/projetoMCA/Desktop/GitHub Desktop/oscilloscope-automation/experiments-tests",
   "Resource": " ",
   "Channel": "1",
-  "MaxEvents": 1000,
+  "MaxEvents": 100,
   "TypeExperiment": " "
 }
