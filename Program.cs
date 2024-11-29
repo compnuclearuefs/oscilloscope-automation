@@ -139,16 +139,20 @@ namespace TekOscilloscopeCommunication
 2) CH2
 3) CH3
 4) CH4");
-                //userConfigs.Channel = Console.ReadLine();
-                userConfigs.Channel = "1";
+                userConfigs.Channel = Console.ReadLine();
+                //userConfigs.Channel = "1";
                 if (!int.TryParse(userConfigs.Channel, out int channelInt))
                 {
-                    if (!(channelInt >= 1 && channelInt <= 4))
-                    {
-                        Console.WriteLine($"Digite uma opção válida");
-                        continue;
-                    }
+                    Console.WriteLine($"Digite uma opção válida\n");
+                    continue;
                 }
+                if (!(channelInt >= 1 && channelInt <= 4))
+                {
+                    Console.WriteLine($"Digite uma opção válida\n");
+                    continue;
+                }
+                userConfigs.Channel = $"CH{userConfigs.Channel}";
+                Console.WriteLine($"canal {userConfigs.Channel}");
                 break;
             }
             
@@ -173,7 +177,7 @@ namespace TekOscilloscopeCommunication
                 Console.WriteLine("Conexão estabelecida com sucesso!");
                 // CONFIGURAR CANAL E MEDIÇÕES
                 
-                //LStekVISA.SetMeasurement(new List<string> { "PK2PK", "RISE", "NWIDTH", "FALL" }, userConfigs.Channel);
+                tekVISA.SetMeasurement(new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" }, userConfigs.Channel);
 
             }
             catch (Exception ex)
@@ -240,27 +244,30 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                             userOscConf.AcquireSet = "ACQUIRE:STOPAFTER SEQUENCE;MODE SAMPLE;";
 
                             List<string> triggerConf = tekVISA.GetTriggerConf();
-                            if (triggerConf.Count >= 6)
-                            {
-                                userOscConf.TriggerSet =
-                                    $"TRIG:MAI:MOD {triggerConf[0]};" +
-                                    $"TYPE {triggerConf[1]};" +
-                                    $"LEVEL {triggerConf[2]};" +
-                                    $"VIDEO:SOURCE {triggerConf[3]};" +
-                                    $":TRIG:MAI:EDGE:SLOPE {triggerConf[4]};" +
-                                    $"COUP {triggerConf[5]};";
-                                Console.WriteLine("Quanto ao trigger...");
-                                for (int i = 0; i < 6; i++)
+                            for (int k = 0; k < 5; k++)
+                            { 
+                                if (triggerConf.Count >= 6)
                                 {
-                                    // Processar o dado, por exemplo:
-                                    Console.WriteLine($"Dado {i}: {triggerConf[i]}");
+                                    userOscConf.TriggerSet =
+                                        $"TRIG:MAI:MOD {triggerConf[0]};" +
+                                        $"TYPE {triggerConf[1]};" +
+                                        $"LEVEL {triggerConf[2]};" +
+                                        $"VIDEO:SOURCE {triggerConf[3]};" +
+                                        $":TRIG:MAI:EDGE:SLOPE {triggerConf[4]};" +
+                                        $"COUP {triggerConf[5]};";
+                                    Console.WriteLine("Quanto ao trigger...");
+                                    for (int i = 0; i < 6; i++)
+                                    {
+                                        // Processar o dado, por exemplo:
+                                        Console.WriteLine($"Dado {i}: {triggerConf[i]}");
+                                    }
+                                    break;
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Configuração de trigger incompleta.");
                                 }
                             }
-                            else
-                            {
-                                Console.WriteLine("Configuração de trigger incompleta.");
-                            }
-
                             List<string> visualizationConf = tekVISA.GetVisualizationConf();
                             if (visualizationConf.Count >= 4)
                             {

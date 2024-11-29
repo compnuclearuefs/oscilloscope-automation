@@ -31,7 +31,7 @@ namespace TekOscilloscopeCommunication
             );
             storageServiceOscilloscopeConfigs.Save(hehe);*/
 
-            /*
+            
             // Inicializar OpenFileDialog
             TekVISA tekVISA = new TekVISA();
             UserConfigs userConfigs = new UserConfigs(" ", " ", " ", 0, " ");
@@ -56,18 +56,21 @@ namespace TekOscilloscopeCommunication
                 Console.WriteLine("Erro: " + ex.Message);
 
             }
+            //Console.WriteLine(tekVISA.SetMeasurement(new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" }, userConfigs.Channel));
 
-            Console.WriteLine("Testando trigger...");
+            /*Console.WriteLine("Testando trigger...");
             List<string> triggerConf = tekVISA.GetTriggerConf();
             for (int i = 0; i < 6; i++)
             {
                 // Processar o dado, por exemplo:
                 Console.WriteLine($"Dado {i}: {triggerConf[i]}");
-            }
-            */
-            DateTime currentTime = DateTime.UtcNow;
+            }*/
+
+
+
+            /*DateTime currentTime = DateTime.UtcNow;
             double julianDate = Tools.ConvertDateToJulian(currentTime);
-            Console.WriteLine(Math.Round(julianDate,6));
+            Console.WriteLine(Math.Round(julianDate,6));*/
 
             /*
             // Obtém a data e hora atual

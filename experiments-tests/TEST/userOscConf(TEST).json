@@ -1,0 +1,6 @@
+{
+  "DataFormatSet": "HEADER OFF;:DATA:SOU CH1;:DATA:ENCDG SRPbinary;:DATA:WIDTH 2;:DATA:START 1;:DATA:STOP",
+  "AcquireSet": "ACQUIRE:STOPAFTER SEQUENCE;MODE SAMPLE;",
+  "TriggerSet": "",
+  "VisualizationSet": "CH1:SCA 1.0E-1;POS 3.52E0;:HOR:SCA 1.0E-8;POS 4.0E-10;"
+}

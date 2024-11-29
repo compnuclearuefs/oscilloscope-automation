@@ -113,16 +113,12 @@ namespace comunicacaoOciloscopio.classes
         // MÉTODO PARA CONFIGURAR MEDIÇÕES
         public void SetMeasurement(List<string> measurements, string channel)
         {
-            // CONCATENAÇÃO DE STRING PARA ENVIAR PRO OCILOSCÓPIO
-            // Exemplo de um dos resultados: MEASUREMENT:MEAS1:SOURCE CH1;:MEASUREMENT:MEAS1:TYPE PK2PK
-            string queryCommand = "";
             for (int i = 0; i < measurements.Count; i++)
             {
-                if (i > 0) queryCommand += ";:";
-                queryCommand += String.Format("MEASUREMENT:MEAS{0}:SOURCE {1}", i + 1, channel);
-                queryCommand += String.Format(";:MEASUREMENT:MEAS{0}:TYPE {1}", i + 1, measurements[i]);
+                //if (i > 0) queryCommand += ";:";
+                this.connector.Write($"MEASUREMENT:MEAS{i + 1}:SOURCE {channel}");
+                this.connector.Write($"MEASUREMENT:MEAS{i + 1}:TYPE {measurements[i]}");
             }
-            this.connector.Write(queryCommand);
         }
 
         // MÉTODO PARA CAPTURAR A FORMA DE ONDA
