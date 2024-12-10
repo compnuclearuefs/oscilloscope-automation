@@ -95,6 +95,7 @@ namespace comunicacaoOciloscopio.classes
         public void SetChannel(string channel)
         {
             this.connector.Write($"DATA:SOURCE {channel}");
+            this.connector.Write($"MEASU:IMM:SOURCE {channel}");
         }
 
         public void Write(string command)
@@ -150,6 +151,23 @@ namespace comunicacaoOciloscopio.classes
         public void Run()
         {
             this.connector.Write("ACQUIRE:STATE ON;");
+        }
+        
+        public List<string> GetMeasurementsIMM(List<string> masurements)
+        {
+            string meas;
+            List<string> all = new List<string> { };
+            for (int i = 0; i < masurements.Count(); i++)
+            {
+                this.connector.Write($"MEASU:IMM:TYPE {masurements[i]}");
+                meas = this.Query("MEASU:IMM:VAL?");
+                this.connector.Query("*ESR?", out string esr);
+                if (esr != "16")
+                {
+                    all.Add(meas);
+                }
+            }
+            return all;
         }
 
         public List<string> GetData()

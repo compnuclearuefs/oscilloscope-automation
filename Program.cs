@@ -26,6 +26,7 @@ namespace TekOscilloscopeCommunication
             // Veriáveis e estruturas para "DEV MODE"
             bool dev = true;
             string projectPath = "C:/Users/projetoMCA/Desktop/GitHub Desktop/oscilloscope-automation";
+            List<string> measurements = new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" };
 
 
             // Inicialização de variáveis
@@ -177,7 +178,7 @@ namespace TekOscilloscopeCommunication
                 Console.WriteLine("Conexão estabelecida com sucesso!");
                 // CONFIGURAR CANAL E MEDIÇÕES
                 
-                tekVISA.SetMeasurement(new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" }, userConfigs.Channel);
+                tekVISA.SetMeasurement(measurements, userConfigs.Channel);
 
             }
             catch (Exception ex)
@@ -320,7 +321,7 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                     break;
                 }
 
-                data.Data = tekVISA.GetData();
+                data.Data = tekVISA.GetMeasurementsIMM(measurements);
 
                 //VERIFICA SE O ERRO 9.99E37 ESTÁ OCORRENDO
                 Console.WriteLine(data.Data[0]);

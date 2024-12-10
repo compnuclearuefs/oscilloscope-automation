@@ -31,9 +31,9 @@ namespace TekOscilloscopeCommunication
             );
             storageServiceOscilloscopeConfigs.Save(hehe);*/
 
-            
+
             // Inicializar OpenFileDialog
-            TekVISA tekVISA = new TekVISA();
+            /*TekVISA tekVISA = new TekVISA();
             UserConfigs userConfigs = new UserConfigs(" ", " ", " ", 0, " ");
 
             // INICIALIZAÇÃO DO TEKVISA E CONEXÃO
@@ -55,7 +55,7 @@ namespace TekOscilloscopeCommunication
             {
                 Console.WriteLine("Erro: " + ex.Message);
 
-            }
+            }*/
             //Console.WriteLine(tekVISA.SetMeasurement(new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" }, userConfigs.Channel));
 
             /*Console.WriteLine("Testando trigger...");
@@ -87,6 +87,18 @@ namespace TekOscilloscopeCommunication
             Console.WriteLine($"Data Gregoriana (UTC): {result:yyyy-MM-dd HH:mm:ss}");
             Console.WriteLine($"Data Gregoriana (GMT -3): {convertedDate:yyyy-MM-dd HH:mm:ss}");
             */
+
+            List<int> arr = new List<int> { 1, 2, 3 };
+            arr.Add(4);
+            arr.Remove(1);
+            arr.Remove(2);
+            arr.Remove(3);
+            arr = new List<int> { 1, 2, 3 };
+
+            for (int i = 0; i < arr.Count(); i++)
+            {
+                Console.WriteLine(arr[i]);
+            }
         }
     }
 
