@@ -122,6 +122,16 @@ namespace comunicacaoOciloscopio.classes
             }
         }
 
+        public void SetMeasurementNone(string channel)
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                this.connector.Write($"MEASUREMENT:MEAS{i + 1}:SOURCE {channel}");
+                this.connector.Write($"MEASUREMENT:MEAS{i + 1}:TYPE NONE");
+                Console.WriteLine($"MEASUREMENT:MEAS{i + 1}:SOURCE {channel};:MEASUREMENT:MEAS{i + 1}:TYPE NONE");
+            }
+        }
+
         // MÉTODO PARA CAPTURAR A FORMA DE ONDA
         public string CaptureWaveform(string channel)
         {
@@ -152,22 +162,50 @@ namespace comunicacaoOciloscopio.classes
         {
             this.connector.Write("ACQUIRE:STATE ON;");
         }
+
+        public string CompIMMQuery (List<string> measurements)
+        {
+            string query_str = "";
+            for (int i = 0; i < measurements.Count(); i++)
+            {
+                if (i > 0)
+                {
+                    query_str += ";:";
+
+                }
+                query_str += $"MEASU:IMM:TYPE {measurements[i]};:";
+                query_str += $"MEASU:IMM:VAL?";
+
+
+            }
+            return query_str;
+        }
         
-        public List<string> GetMeasurementsIMM(List<string> masurements)
+        public List<string> GetMeasurementsIMM(string query_str)
         {
             string meas;
-            List<string> all = new List<string> { };
-            for (int i = 0; i < masurements.Count(); i++)
+            this.connector.Write(query_str);
+            this.connector.Read(out meas);
+
+            //List<string> all = meas.Split(';').ToList();
+
+            this.connector.Write("*ESR?;");
+            this.connector.Read(out string esr);
+            List<string> data = new List<string>();
+            if (esr != "16")
             {
-                this.connector.Write($"MEASU:IMM:TYPE {masurements[i]}");
-                meas = this.Query("MEASU:IMM:VAL?");
-                this.connector.Query("*ESR?", out string esr);
-                if (esr != "16")
-                {
-                    all.Add(meas);
-                }
+                data = meas.Split(';').ToList();
             }
-            return all;
+            return data;
+        }
+
+        public bool esrTest()
+        {
+            bool esr_b = false;
+            this.connector.Write("*ESR?");
+            this.connector.Read(out string esr);
+            if (esr == "16") { esr_b = true; }
+            return esr_b;
         }
 
         public List<string> GetData()

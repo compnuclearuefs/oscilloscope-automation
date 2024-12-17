@@ -1,0 +1,1 @@
+Acquisition time	Neg Width   	Fall time   	Rise time   	Pk-Pk       	
