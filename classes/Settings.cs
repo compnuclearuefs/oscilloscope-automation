@@ -7,8 +7,10 @@ using System.Text.Json;
 namespace comunicacaoOciloscopio.classes
 {
     // CLASSE COM AS CONFIGS DO USUARIO
-    public class UserConfigs
+    public class Settings
     {
+        public string Name { get; set; }
+        public string Description { get; set; }
         public string Directory { get; set; }
         public string Resource { get; set; }
         public string Channel { get; set; }
@@ -16,9 +18,9 @@ namespace comunicacaoOciloscopio.classes
         public string TypeExperiment { get; set; }
 
         // Construtor sem parâmetros (necessário para desserialização)
-        public UserConfigs() { }
+        public Settings() { }
 
-        public UserConfigs(string directory, string resource, string channel, int maxEvents, string typeExperiment)
+        public Settings(string directory, string resource, string channel, int maxEvents, string typeExperiment)
         {
             Directory = directory;
             Resource = resource;
