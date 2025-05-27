@@ -31,9 +31,9 @@ namespace TekOscilloscopeCommunication
             );
             storageServiceOscilloscopeConfigs.Save(hehe);*/
 
-            /*
+
             // Inicializar OpenFileDialog
-            TekVISA tekVISA = new TekVISA();
+            /*TekVISA tekVISA = new TekVISA();
             UserConfigs userConfigs = new UserConfigs(" ", " ", " ", 0, " ");
 
             // INICIALIZAÇÃO DO TEKVISA E CONEXÃO
@@ -55,8 +55,7 @@ namespace TekOscilloscopeCommunication
             {
                 Console.WriteLine("Erro: " + ex.Message);
 
-            }
-            */
+            }*/
             //Console.WriteLine(tekVISA.SetMeasurement(new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" }, userConfigs.Channel));
 
             /*Console.WriteLine("Testando trigger...");
@@ -88,81 +87,18 @@ namespace TekOscilloscopeCommunication
             Console.WriteLine($"Data Gregoriana (UTC): {result:yyyy-MM-dd HH:mm:ss}");
             Console.WriteLine($"Data Gregoriana (GMT -3): {convertedDate:yyyy-MM-dd HH:mm:ss}");
             */
-            Console.WriteLine("Message sent to the broadcast address");
-            string response = "";
 
-            Console.WriteLine("Hello World!");
-            VISA TVA = new VISA();
-            ArrayList resources = new ArrayList();
-            TVA.FindResources("?*", out resources); //Searching for oscilloscope connected on PC
+            List<int> arr = new List<int> { 1, 2, 3 };
+            arr.Add(4);
+            arr.Remove(1);
+            arr.Remove(2);
+            arr.Remove(3);
+            arr = new List<int> { 1, 2, 3 };
 
-            //Showing the osciloscope ID
-            foreach (string s in resources)
+            for (int i = 0; i < arr.Count(); i++)
             {
-                Console.WriteLine(s);
+                Console.WriteLine(arr[i]);
             }
-
-            TVA.Open(resources[0].ToString()); //Connecting with the oscilloscope
-            TVA.Write("*IDN?");
-            bool status = TVA.Read(out response);
-            if (status)
-            {
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("IDN (device information):"); //ID oscilloscope
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(response);
-            }
-
-
-
-            TVA.Write("HEADER OFF");
-            //Setting the oscilloscope for save data
-            TVA.Write("DATA:SOU CH1");
-
-            //Setting the wave length that will be stored
-            TVA.Write("DATA:ENCDG SRPbinary");
-            TVA.Write("DATA:WIDTH 2");
-            TVA.Write("DATA:START 1");
-            TVA.Write("DATA:STOP 2500");
-            List<string> measurements = new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" };
-            string query_str = "";
-            string meas;
-            List<string> data = new List<string> { };
-            List<string> all = new List<string> { };
-            for (int i = 0; i < measurements.Count(); i++)
-            {
-                if (i > 0)
-                {
-                    query_str += ";:";
-
-                }
-                query_str += $"MEASU:IMM:TYPE {measurements[i]};:";
-                query_str += $"MEASU:IMM:VAL?";
-            }
-            all = query_str.Split(';').ToList();
-
-            void SetMeasurementNone(string channel)
-            {
-                for (int i = 0; i < 5; i++)
-                {
-                    TVA.Write($"MEASUREMENT:MEAS{i + 1}:SOURCE {channel}");
-                    TVA.Write($"MEASUREMENT:MEAS{i + 1}:TYPE NONE");
-                    TVA.Query("*ESR?", out string outh);
-                    Console.WriteLine($"MEASUREMENT:MEAS{i + 1}:SOURCE {channel};:MEASUREMENT:MEAS{i + 1}:TYPE NONE");
-                }
-            }
-
-            SetMeasurementNone("CH1");
-
-            /*string IMM_query = tekVISA.CompIMMQuery(measurements);
-            List<string> res = tekVISA.GetMeasurementsIMM(IMM_query);
-
-            Console.WriteLine(all[0]);
-            Console.WriteLine(query_str);
-            for (int i = 0; i < res.Count(); i++)
-            {
-                Console.WriteLine($"Medida índice {i}: {res[i]}");
-            }*/
         }
     }
 

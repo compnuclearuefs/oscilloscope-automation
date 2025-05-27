@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -116,8 +115,8 @@ namespace TekOscilloscopeCommunication
             while (true)
             {
                 Console.WriteLine("\nDigite o máximo de eventos: ");
-                //string maxEventsInput = Console.ReadLine();
-                string maxEventsInput = "100";
+                string maxEventsInput = Console.ReadLine();
+                //string maxEventsInput = "100";
 
                 if (int.TryParse(maxEventsInput, out int intMaxEvent))
                 {
@@ -141,8 +140,8 @@ namespace TekOscilloscopeCommunication
 2) CH2
 3) CH3
 4) CH4");
-                //userConfigs.Channel = Console.ReadLine();
-                userConfigs.Channel = "1";
+                userConfigs.Channel = Console.ReadLine();
+                //userConfigs.Channel = "1";
                 if (!int.TryParse(userConfigs.Channel, out int channelInt))
                 {
                     Console.WriteLine($"Digite uma opção válida\n");
@@ -176,7 +175,6 @@ namespace TekOscilloscopeCommunication
             try
             {
                 tekVISA.Connect(userConfigs.Resource);
-                Thread.Sleep(1000);
                 Console.WriteLine("Conexão estabelecida com sucesso!");
                 // CONFIGURAR CANAL E MEDIÇÕES
                 
@@ -194,8 +192,7 @@ namespace TekOscilloscopeCommunication
     1) Carregar a configuração existente
     2) Carregar uma nova configuração
     3) Carregar configuração Padrão");
-                //string oscilloscopeConfOp = Console.ReadLine();
-                string oscilloscopeConfOp = "3";
+                string oscilloscopeConfOp = Console.ReadLine();
                 if (!int.TryParse(oscilloscopeConfOp, out int oscilloscopeConfOpInt))
                 {
                     if (!(oscilloscopeConfOpInt >= 1 && oscilloscopeConfOpInt <= 3))
@@ -313,8 +310,6 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                 }
             }
 
-            //tekVISA.SetMeasurementNone(userConfigs.Channel);
-            string IMM_query = tekVISA.CompIMMQuery(measurements);
             // CAPTURAR DADOS DO PULSO
             while (countEvents < userConfigs.MaxEvents)
             {
@@ -326,12 +321,11 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                     break;
                 }
 
-                //data.Data = tekVISA.GetMeasurementsIMM(IMM_query);
-                data.Data = tekVISA.GetData();
+                data.Data = tekVISA.GetMeasurementsIMM(measurements);
 
                 //VERIFICA SE O ERRO 9.99E37 ESTÁ OCORRENDO
-                //Console.WriteLine(data.Data[0]);
-                if (tekVISA.esrTest()) { Console.WriteLine($"ESR: true");  continue; }
+                Console.WriteLine(data.Data[0]);
+                if (data.Data[0] == error || data.Data[1] == error || data.Data[2] == error || data.Data[3] == error) { continue; }
 
                 stopwatch.Stop();
                 Console.WriteLine($"Tempo passado: {stopwatch.Elapsed}");
