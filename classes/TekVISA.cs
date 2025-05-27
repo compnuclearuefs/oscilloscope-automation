@@ -160,9 +160,8 @@ namespace comunicacaoOciloscopio.classes
         // MÉTODO PARA COMEÇAR MAEPAMENTO DE EVENTOS
         public void Run()
         {
-            this.connector.Write("ACQUIRE:STATE ON;");
+            this.connector.Write("ACQUIRE:STATE ON;");        
         }
-
         public string CompIMMQuery (List<string> measurements)
         {
             string query_str = "";
@@ -188,7 +187,7 @@ namespace comunicacaoOciloscopio.classes
             this.connector.Read(out meas);
 
             //List<string> all = meas.Split(';').ToList();
-
+            /*
             this.connector.Write("*ESR?;");
             this.connector.Read(out string esr);
             List<string> data = new List<string>();
@@ -196,6 +195,9 @@ namespace comunicacaoOciloscopio.classes
             {
                 data = meas.Split(';').ToList();
             }
+            */
+            List<string> data = new List<string>();
+            data = meas.Split(';').ToList();
             return data;
         }
 
@@ -233,6 +235,21 @@ namespace comunicacaoOciloscopio.classes
                 Console.WriteLine("Erro ao recuperar dados");
             return all.Split(';').ToList();
             */
+            return data;
+
+        }
+
+        public List<string> GetDataWR()
+        {
+            List<string> data = new List<string>();
+            bool status;
+            this.connector.Write($"MEASU:MEAS1:VAL?;:MEASU:MEAS2:VAL?;:MEASU:MEAS3:VAL?;:MEASU:MEAS4:VAL?");
+            this.connector.Read(out string all);
+            status = all != "";
+            if (!status)
+                Console.WriteLine("Erro ao recuperar dados");
+
+            data = all.Split(';').ToList();
             return data;
 
         }

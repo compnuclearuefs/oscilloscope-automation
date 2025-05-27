@@ -1,0 +1,2 @@
+Acquisition time	Neg Width   	Fall time   	Rise time   	Pk-Pk       	
+9278,789525 	4.9E-9      	3.6E-9      	9.9E-9      	1.880000085E-1	

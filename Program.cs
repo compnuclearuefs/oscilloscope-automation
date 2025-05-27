@@ -25,7 +25,7 @@ namespace TekOscilloscopeCommunication
         static void Main(string[] args)
         {
             // Veriáveis e estruturas para "DEV MODE"
-            bool dev = true;
+            bool dev = false;
             string projectPath = "C:/Users/projetoMCA/Desktop/GitHub Desktop/oscilloscope-automation";
             List<string> measurements = new List<string> { "NWIDTH", "FALL", "RISE", "PK2PK" };
 
@@ -141,8 +141,8 @@ namespace TekOscilloscopeCommunication
 2) CH2
 3) CH3
 4) CH4");
-                //userConfigs.Channel = Console.ReadLine();
-                userConfigs.Channel = "1";
+                userConfigs.Channel = Console.ReadLine();
+                //userConfigs.Channel = "1";
                 if (!int.TryParse(userConfigs.Channel, out int channelInt))
                 {
                     Console.WriteLine($"Digite uma opção válida\n");
@@ -194,8 +194,8 @@ namespace TekOscilloscopeCommunication
     1) Carregar a configuração existente
     2) Carregar uma nova configuração
     3) Carregar configuração Padrão");
-                //string oscilloscopeConfOp = Console.ReadLine();
-                string oscilloscopeConfOp = "3";
+                string oscilloscopeConfOp = Console.ReadLine();
+                //string oscilloscopeConfOp = "3";
                 if (!int.TryParse(oscilloscopeConfOp, out int oscilloscopeConfOpInt))
                 {
                     if (!(oscilloscopeConfOpInt >= 1 && oscilloscopeConfOpInt <= 3))
@@ -327,6 +327,7 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                 }
 
                 //data.Data = tekVISA.GetMeasurementsIMM(IMM_query);
+                Thread.Sleep(1000);
                 data.Data = tekVISA.GetData();
 
                 //VERIFICA SE O ERRO 9.99E37 ESTÁ OCORRENDO
@@ -345,10 +346,10 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                     data.Nwidth = data.ConvertExpoStr(data.Data[2]);
                     data.FallTime = data.ConvertExpoStr(data.Data[3]);*/
 
-            //Console.WriteLine("Negative Width: {0}\nFall Time: {1}\nRise Time: {2}\nPeak-to-Peak: {3}", data.Nwidth, data.FallTime, data.RiseTime, data.Pkp);
-            // ADQUIRE TEMPO ATUAL
+                    //Console.WriteLine("Negative Width: {0}\nFall Time: {1}\nRise Time: {2}\nPeak-to-Peak: {3}", data.Nwidth, data.FallTime, data.RiseTime, data.Pkp);
+                    // ADQUIRE TEMPO ATUAL
 
-            FileManager.update(data);
+                    FileManager.update(data);
                     /*
                     DateTime tempoAtual = DateTime.Now;
                     horaAtual = tempoAtual.ToString("HH:mm:ss");
@@ -373,8 +374,6 @@ no seu ociloscópio com base nos pulsos que deseja estudar. Depois disso pressio
                     countEvents = countEvents + 1;
                     Console.WriteLine("Quantidade de Eventos: " + countEvents);
                 }
-                
-                
             }
 
         }
